@@ -4,7 +4,7 @@ use crate::discord::client::DiscordClient;
 use crate::notification::pushover::PushoverNotifier;
 use config::Config as ConfigLoader;
 use std::sync::Arc;
-use crate::ws::WsServer;
+use crate::websocket::server::WebSocketServer;
 
 mod discord;
 mod notification;
@@ -35,7 +35,7 @@ async fn main() -> Result<()> {
     let notifier = PushoverNotifier::new(config.pushover_token, config.pushover_user);
 
     // Server websocket
-    let ws_server = Arc::new(WsServer::new());
+    let ws_server = Arc::new(WebSocketServer::new());
     let ws_server_clone = ws_server.clone();
     // spawn websocket server
     tokio::spawn(async move {

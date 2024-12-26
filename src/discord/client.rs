@@ -2,7 +2,7 @@ use twilight_gateway::{Event, Intents, Shard};
 use twilight_gateway::ShardId;
 use anyhow::Result;
 use std::sync::Arc;
-use crate::ws::WsServer;
+use crate::websocket::server::WebSocketServer;
 
 pub struct DiscordClient {
     shard: Shard,
@@ -19,7 +19,7 @@ impl DiscordClient {
         &mut self,
         channel_ids: Vec<String>,
         notification_sender: impl Fn(&str) -> Result<()>,
-        ws_server: Arc<WsServer>,
+        ws_server: Arc<WebSocketServer>,
     ) -> Result<()> {
         println!("Bot is running! Listening for messages...");
 
