@@ -5,6 +5,9 @@ edition = "2021"
 
 [dependencies]
 twilight-http = "0.15"
+tokio-tungstenite = "0.20"
+futures-util = "0.3"
+futures = "0.3"
 twilight-gateway = "0.15"
 twilight-model = "0.15"
 twilight-util = { version = "0.15", features = ["builder"] }

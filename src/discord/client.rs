@@ -1,6 +1,8 @@
 use twilight_gateway::{Event, Intents, Shard};
 use twilight_gateway::ShardId;
 use anyhow::Result;
+use std::sync::Arc;
+use crate::ws::WsServer;
 
 pub struct DiscordClient {
     shard: Shard,
@@ -17,6 +19,7 @@ impl DiscordClient {
         &mut self,
         channel_ids: Vec<String>,
         notification_sender: impl Fn(&str) -> Result<()>,
+        ws_server: Arc<WsServer>,
     ) -> Result<()> {
         println!("Bot is running! Listening for messages...");
 
@@ -44,6 +47,10 @@ impl DiscordClient {
                     
                     if let Err(e) = notification_sender(&notification_text) {
                         println!("Erreur d'envoi de notification: {:?}", e);
+                    }
+
+                    if let Err(e) = ws_server.broadcast(&notification_text).await {
+                        println!("Erreur lors de la diffusion du message: {:?}", e);
                     }
                 }
             }
